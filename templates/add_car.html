@@ -8,6 +8,9 @@
     <form method="POST" action="{{ url_for('add_car') }}">
         {{ form.hidden_tag() }}
         <div>
+            {{ form.car_model.label }} {{ form.car_model() }}
+        </div>
+        <div>
             {{ form.color.label }} {{ form.color() }}
         </div>
         <div>

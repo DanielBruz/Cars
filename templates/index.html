@@ -5,25 +5,30 @@
 </head>
 <body>
     <h1>Car Management App</h1>
-
-    <h2>Manufacturers</h2>
-    <ul>
-        {% for manufacturer in manufacturers %}
-            <li>{{ manufacturer.name }}</li>
-        {% endfor %}
-    </ul>
-
-    <h2>Car Models</h2>
-    <ul>
-        {% for car_model in car_models %}
-            <li>{{ car_model.name }}</li>
-        {% endfor %}
-    </ul>
+    <form method="POST" action="{{ url_for('index') }}">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.manufacturer.label }} {{ form.manufacturer() }}
+        </div>
+        <div>
+            {{ form.car_model.label }} {{ form.car_model() }}
+        </div>
+        <button type="submit">Filter</button>
+    </form>
 
     <h2>Cars</h2>
     <ul>
         {% for car in cars %}
-            <li>{{ car.color }} {{ car.model.name }}</li>
+            <li>Barva: {{ car.color }}
+                 / Výkon (kW): {{ car.horsepower }}
+                 / Spotřeba (l/100 km): {{ car.consumption }}
+                 / Datum výroby: {{ car.manufacture_date.strftime('%d.%m.%Y') }}
+                {% if car.is_drivable %}
+                    / Pojízdné: ANO
+                {% else %}
+                    / Pojízdné: NE
+                {% endif %}
+            </li>
         {% endfor %}
     </ul>
 
@@ -32,7 +37,6 @@
         <li><a href="{{ url_for('add_manufacturer') }}">Add Manufacturer</a></li>
         <li><a href="{{ url_for('add_model') }}">Add Car Model</a></li>
         <li><a href="{{ url_for('add_car') }}">Add Car</a></li>
-<!-- <li><a href="{{ url_for('add_cars') }}">Add Cars from JSON</a></li> -->
     </ul>
 </body>
 </html>
