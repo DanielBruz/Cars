@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Car Model</title>
+</head>
+<body>
+    <h1>Add Car Model</h1>
+    <form method="POST" action="{{ url_for('add_model') }}">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.name.label }} {{ form.name() }}
+        </div>
+        <div>
+            {{ form.category.label }} {{ form.category() }}
+        </div>
+        <div>
+            {{ form.price_range.label }} {{ form.price_range() }}
+        </div>
+        <div>
+            {{ form.release_year.label }} {{ form.release_year() }}
+        </div>
+        <div>
+            {{ form.is_active.label }} {{ form.is_active() }}
+        </div>
+        <div>
+            <button type="submit">Add Car Model</button>
+        </div>
+    </form>
+</body>
+</html>

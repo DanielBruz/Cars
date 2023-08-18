@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Manufacturer</title>
+</head>
+<body>
+    <h1>Add Manufacturer</h1>
+    <form method="POST" action="{{ url_for('add_manufacturer') }}">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.name.label }} {{ form.name() }}
+        </div>
+        <div>
+            {{ form.street.label }} {{ form.street() }}
+        </div>
+        <div>
+            {{ form.city.label }} {{ form.city() }}
+        </div>
+        <div>
+            {{ form.zip_code.label }} {{ form.zip_code() }}
+        </div>
+        <div>
+            {{ form.country.label }} {{ form.country() }}
+        </div>
+        <div>
+            <button type="submit">Add Manufacturer</button>
+        </div>
+    </form>
+</body>
+</html>

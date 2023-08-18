@@ -11,103 +11,104 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost:5
 db = SQLAlchemy(app)
 api = Api(app)
 
-with app.app_context():
-    # Definice databázových modelů
-    class Manufacturer(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        name = db.Column(db.String(100), nullable=False)
-        street = db.Column(db.String(100))
-        city = db.Column(db.String(50))
-        zip_code = db.Column(db.String(10))
-        country = db.Column(db.String(50))
+
+# Definice databázových modelů
+class Manufacturer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    street = db.Column(db.String(100))
+    city = db.Column(db.String(50))
+    zip_code = db.Column(db.String(10))
+    country = db.Column(db.String(50))
 
 
-    class CarModel(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        manufacturer_id = db.Column(db.Integer, db.ForeignKey('manufacturer.id'), nullable=False)
-        name = db.Column(db.String(100), nullable=False)
-        category = db.Column(db.String(50))
-        price_range = db.Column(db.String(50))
-        release_year = db.Column(db.Integer)
-        is_active = db.Column(db.Boolean)
+class CarModel(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    manufacturer_id = db.Column(db.Integer, db.ForeignKey('manufacturer.id'), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    category = db.Column(db.String(50))
+    price_range = db.Column(db.String(50))
+    release_year = db.Column(db.Integer)
+    is_active = db.Column(db.Boolean)
 
 
-    class Car(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        model_id = db.Column(db.Integer, db.ForeignKey('car_model.id'), nullable=False)
-        color = db.Column(db.String(50))
-        horsepower = db.Column(db.Integer)
-        consumption = db.Column(db.Float)
-        manufacture_date = db.Column(db.Date)
-        is_drivable = db.Column(db.Boolean)
+class Car(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    model_id = db.Column(db.Integer, db.ForeignKey('car_model.id'), nullable=False)
+    color = db.Column(db.String(50))
+    horsepower = db.Column(db.Integer)
+    consumption = db.Column(db.Float)
+    manufacture_date = db.Column(db.Date)
+    is_drivable = db.Column(db.Boolean)
 
 
-    # Formuláře pro přidání/editaci dat
-    class ManufacturerForm(FlaskForm):
-        name = StringField('Name', validators=[DataRequired()])
-        street = StringField('Street')
-        city = StringField('City')
-        zip_code = StringField('ZIP Code')
-        country = StringField('Country')
+# Formuláře pro přidání/editaci dat
+class ManufacturerForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    street = StringField('Street')
+    city = StringField('City')
+    zip_code = StringField('ZIP Code')
+    country = StringField('Country')
 
 
-    class CarModelForm(FlaskForm):
-        name = StringField('Name', validators=[DataRequired()])
-        category = StringField('Category')
-        price_range = StringField('Price Range')
-        release_year = IntegerField('Release Year')
-        is_active = SelectField('Is Active', choices=[(True, 'Yes'), (False, 'No')])
+class CarModelForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    category = StringField('Category')
+    price_range = StringField('Price Range')
+    release_year = IntegerField('Release Year')
+    is_active = SelectField('Is Active', choices=[(True, 'Yes'), (False, 'No')])
 
 
-    class CarForm(FlaskForm):
-        color = StringField('Color')
-        horsepower = IntegerField('Horsepower')
-        consumption = IntegerField('Consumption')
-        manufacture_date = StringField('Manufacture Date')
-        is_drivable = SelectField('Is Drivable', choices=[(True, 'Yes'), (False, 'No')])
+class CarForm(FlaskForm):
+    color = StringField('Color')
+    horsepower = IntegerField('Horsepower')
+    consumption = IntegerField('Consumption')
+    manufacture_date = StringField('Manufacture Date')
+    is_drivable = SelectField('Is Drivable', choices=[(True, 'Yes'), (False, 'No')])
 
 
-    # API Resources
-    class ManufacturerResource(Resource):
-        def get(self, manufacturer_id):
-            manufacturer = Manufacturer.query.get(manufacturer_id)
-            # Kód pro získání dat
+# API Resources
+class ManufacturerResource(Resource):
+    def get(self, manufacturer_id):
+        manufacturer = Manufacturer.query.get(manufacturer_id)
+        # Kód pro získání dat
 
-        def put(self, manufacturer_id):
-            manufacturer = Manufacturer.query.get(manufacturer_id)
-            # Kód pro aktualizaci dat
+    def put(self, manufacturer_id):
+        manufacturer = Manufacturer.query.get(manufacturer_id)
+        # Kód pro aktualizaci dat
 
-        def delete(self, manufacturer_id):
-            manufacturer = Manufacturer.query.get(manufacturer_id)
-            # Kód pro smazání dat
-
-
-    class CarModelResource(Resource):
-        def get(self, model_id):
-            car_model = CarModel.query.get(model_id)
-            # Kód pro získání dat
-
-        def put(self, model_id):
-            car_model = CarModel.query.get(model_id)
-            # Kód pro aktualizaci dat
-
-        def delete(self, model_id):
-            car_model = CarModel.query.get(model_id)
-            # Kód pro smazání dat
+    def delete(self, manufacturer_id):
+        manufacturer = Manufacturer.query.get(manufacturer_id)
+        # Kód pro smazání dat
 
 
-    class CarResource(Resource):
-        def get(self, car_id):
-            car = Car.query.get(car_id)
-            # Kód pro získání dat
+class CarModelResource(Resource):
+    def get(self, model_id):
+        car_model = CarModel.query.get(model_id)
+        # Kód pro získání dat
 
-        def put(self, car_id):
-            car = Car.query.get(car_id)
-            # Kód pro aktualizaci dat
+    def put(self, model_id):
+        car_model = CarModel.query.get(model_id)
+        # Kód pro aktualizaci dat
 
-        def delete(self, car_id):
-            car = Car.query.get(car_id)
-            # Kód pro smazání dat
+    def delete(self, model_id):
+        car_model = CarModel.query.get(model_id)
+        # Kód pro smazání dat
+
+
+class CarResource(Resource):
+    def get(self, car_id):
+        car = Car.query.get(car_id)
+        # Kód pro získání dat
+
+    def put(self, car_id):
+        car = Car.query.get(car_id)
+        # Kód pro aktualizaci dat
+
+    def delete(self, car_id):
+        car = Car.query.get(car_id)
+        # Kód pro smazání dat
+
 
 # Přiřazení URL ke zdrojům API
 api.add_resource(ManufacturerResource, '/api/manufacturer/<int:manufacturer_id>')
@@ -164,39 +165,41 @@ def add_car():
     return render_template('add_car.html', form=form)
 
 
-def add_cars():
-    manufacturers = Manufacturer.query.all()
-    car_models = CarModel.query.all()
-
-    if request.method == 'POST':
-        manufacturer_id = int(request.form.get('manufacturer'))
-        model_id = int(request.form.get('model'))
-
-        manufacturer = Manufacturer.query.get(manufacturer_id)
-        car_model = CarModel.query.get(model_id)
-
-        if not manufacturer or not car_model:
-            flash('Invalid manufacturer or car model selected.', 'error')
-        else:
-            file = request.files['car_data']
-            if file and file.filename.endswith('.json'):
-                try:
-                    cars_data = json.load(file)
-                    for car_data in cars_data:
-                        car = Car(model_id=model_id, color=car_data['color'], horsepower=car_data['horsepower'],
-                                  consumption=car_data['consumption'], manufacture_date=car_data['manufacture_date'],
-                                  is_drivable=car_data['is_drivable'])
-                        db.session.add(car)
-                    db.session.commit()
-                    return redirect(url_for('index'))
-                except json.JSONDecodeError:
-                    flash('Invalid JSON file format.', 'error')
-            else:
-                flash('Please upload a valid JSON file.', 'error')
-
-    return render_template('add_cars.html', manufacturers=manufacturers, car_models=car_models)
+#    def add_cars():
+#        manufacturers = Manufacturer.query.all()
+#        car_models = CarModel.query.all()
+#
+#        if request.method == 'POST':
+#            manufacturer_id = int(request.form.get('manufacturer'))
+#            model_id = int(request.form.get('model'))
+#
+#            manufacturer = Manufacturer.query.get(manufacturer_id)
+#            car_model = CarModel.query.get(model_id)
+#
+#            if not manufacturer or not car_model:
+#                flash('Invalid manufacturer or car model selected.', 'error')
+#            else:
+#                file = request.files['car_data']
+#                if file and file.filename.endswith('.json'):
+#                    try:
+#                        cars_data = json.load(file)
+#                        for car_data in cars_data:
+#                            car = Car(model_id=model_id, color=car_data['color'], horsepower=car_data['horsepower'],
+#                                      consumption=car_data['consumption'],
+#                                      manufacture_date=car_data['manufacture_date'],
+#                                      is_drivable=car_data['is_drivable'])
+#                            db.session.add(car)
+#                        db.session.commit()
+#                        return redirect(url_for('index'))
+#                    except json.JSONDecodeError:
+#                        flash('Invalid JSON file format.', 'error')
+#                else:
+#                    flash('Please upload a valid JSON file.', 'error')
+#
+#        return render_template('add_cars.html', manufacturers=manufacturers, car_models=car_models)
 
 
 if __name__ == '__main__':
-    db.create_all()
-    app.run(debug=True)
+    with app.app_context():
+        db.create_all()
+        app.run(debug=True)
